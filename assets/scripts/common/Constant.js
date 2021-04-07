@@ -6,6 +6,7 @@ Constant.EVENT = {
 
     NEW_GAME: "NEW_GAME",
     GAME_START: "GAME_START",
+    SHOW_CARD: "SHOW_CARD",
 };
 
 Constant.TURN = {

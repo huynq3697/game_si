@@ -8,6 +8,7 @@ cc.Class({
     },
 
     onLoad () {
+        cc.Global.instanceCardAtlas();
         this.addEventListener();
         this.onActiveHome();
     },

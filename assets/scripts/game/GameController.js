@@ -13,6 +13,7 @@ cc.Class({
         noc: cc.Node,
         draw_card: cc.Prefab, // bai boc len
         card: cc.Prefab,
+        showCardPrefab: cc.Prefab,
         btnBocBai: cc.Node,
     },
 
@@ -39,6 +40,7 @@ cc.Class({
     addEventListener () {
         this.node.on(Constant.EVENT.NEW_GAME, this.onNewGame, this);
         this.node.on(Constant.EVENT.GAME_START, this.onGameStart, this);
+        this.node.on(Constant.EVENT.SHOW_CARD, this.onShowCard, this);
     },
 
     onNewGame () {
@@ -68,7 +70,7 @@ cc.Class({
         draw_card.position = this.noc.position;
         draw_card.runAction(cc.sequence(cc.moveTo(this.time_draw_card, this.currPlayer.node.position), cc.callFunc(function () {
             draw_card.destroy();
-            if (this.currPlayer.cardNumber == 1) {
+            if (this.currPlayer.listCard.length == 1) {
                 this.currPlayer.face_down_card.active = true;
                 this.setListCardPlayer(null);
             } else {
@@ -76,19 +78,42 @@ cc.Class({
                 this.currPlayer.card_container.addChild(card);
                 this.setListCardPlayer(card);
             }
-            this.currPlayer.updateCardNumber();
             this.runTimeTurn();
         }.bind(this))));
+    },
+
+    onShowCard(event) {
+        var player1 = this.getPlayerByID(Constant.TURN.PLAYER_1);
+        var card = cc.instantiate(this.card);
+        var cardJs = card.getComponent("card");
+        cardJs.setInforCard(event.data);
+        player1.addCardFaceUp(card);
+        card.color = cc.Color.GRAY;
+    },
+
+    showCard (id) {
+        if (this.currPlayer.player_id == Constant.TURN.PLAYER_1) {
+            var showCard = this.node.getChildByName("ShowCard");
+            if (!showCard) {
+                showCard = cc.instantiate(this.showCardPrefab);
+                this.node.addChild(showCard, cc.macro.MAX_ZINDEX - 1);
+            }
+            showCard.active = true;
+            showCard.opacity = 255;
+            var showCardJs = showCard.getComponent("ShowCard");
+            showCardJs.setIcon(id);
+        }
     },
 
     setListCardPlayer (card) {
         var id = Utils.Malicious.randomMinMax(0, this.drawCardList.length - 1, true);
         var value = String(this.drawCardList[id]).substring(0,1);
-        this.currPlayer.listCard.push(value);
+        this.currPlayer.updateListCard(value);
         if (card) {
             var cardJs = card.getComponent('card');
             cardJs.setInforCard(this.drawCardList[id]);
-            
+        } else {
+            this.showCard(id);
         }
         this.drawCardList.splice(id, 1);
     },
@@ -104,7 +129,7 @@ cc.Class({
     },
 
     checkMaxCardNumber () {
-        if (this.currPlayer.cardNumber == this.max_card_number) {
+        if (this.currPlayer.listCard.length == this.max_card_number) {
             return true;
         }
         return false;
@@ -114,6 +139,15 @@ cc.Class({
         for (var i = 0; i < this.listPlayer.length; i++) {
             if (this.listPlayer[i].player_id == this.TURN) {
                 this.NEXT_TURN = (i == this.listPlayer.length - 1) ? this.listPlayer[0].player_id : this.listPlayer[i+1].player_id;
+                return this.listPlayer[i];
+            };
+        }
+        return null;
+    },
+
+    getPlayerByID (id) {
+        for (var i = 0; i < this.listPlayer.length; i++) {
+            if (this.listPlayer[i].player_id == id) {
                 return this.listPlayer[i];
             };
         }
