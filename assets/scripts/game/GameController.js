@@ -40,6 +40,7 @@ cc.Class({
     addEventListener () {
         this.node.on(Constant.EVENT.NEW_GAME, this.onNewGame, this);
         this.node.on(Constant.EVENT.GAME_START, this.onGameStart, this);
+        this.node.on(Constant.EVENT.END_GAME, this.onEndGame, this);
         this.node.on(Constant.EVENT.SHOW_CARD, this.onShowCard, this);
     },
 
@@ -55,6 +56,10 @@ cc.Class({
 
     onGameStart () {
         this.bocBai();
+    },
+
+    onEndGame () {
+
     },
 
     bocBai () {
@@ -109,6 +114,7 @@ cc.Class({
         var id = Utils.Malicious.randomMinMax(0, this.drawCardList.length - 1, true);
         var value = String(this.drawCardList[id]).substring(0,1);
         this.currPlayer.updateListCard(value);
+        this.currPlayer.updateListCardId(this.drawCardList[id]);
         if (card) {
             var cardJs = card.getComponent('card');
             cardJs.setInforCard(this.drawCardList[id]);

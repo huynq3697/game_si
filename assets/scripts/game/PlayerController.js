@@ -14,6 +14,8 @@ cc.Class({
 
     onLoad () {
         this.listCard = [];
+        this.listCardId = [];
+        this.isWin = false;
     },
 
     start () {
@@ -25,10 +27,16 @@ cc.Class({
         this.face_up_card.removeAllChildren();
         this.face_down_card.active = false;
         this.listCard = [];
+        this.listCardId = [];
+        this.isWin = false;
     },
 
     updateListCard (id) {
-        this.listCard.push(id);
+        this.listCard.push(Number(id));
+    },
+
+    updateListCardId (id) {
+        this.listCardId.push(Number(id));
     },
 
     addCardFaceUp (node) {
