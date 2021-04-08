@@ -27,7 +27,7 @@ cc.Class({
 
     checkDraw (listPlayer) {
         for (var i = 0; i < listPlayer.length; i++) {
-            if (listPlayer.isWin == true) {
+            if (listPlayer[i].isWin == true) {
                 return false;
             }
         }

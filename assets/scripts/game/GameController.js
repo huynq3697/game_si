@@ -61,10 +61,11 @@ cc.Class({
     },
 
     onEndGame () {
-        this.listPlayer[0].listCard = [1,2,5,6,6];
-        this.listPlayer[1].listCard = [1,3,5,6,6];
-        this.listPlayer[0].listCardId = [10,21,50,60,61];
-        this.listPlayer[1].listCardId = [10,31,51,60,61];
+        // test
+        // this.listPlayer[0].listCard = [4,2,2,6,6];
+        // this.listPlayer[1].listCard = [1,3,3,6,6];
+        // this.listPlayer[0].listCardId = [40,20,20,60,61];
+        // this.listPlayer[1].listCardId = [10,30,30,60,61];
         var listPlayerResult = GameLogic.endGame(this.listPlayer);
         var endGame = this.node.getChildByName("EndGame");
         if (!endGame) {

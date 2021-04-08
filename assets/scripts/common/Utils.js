@@ -203,6 +203,19 @@ var Utils = {
             return false;
         },
 
+        isUnique: function (arr, val) {
+            var count = 0;
+            for (i = 0; i < arr.length; i += 1) {
+                if (arr[i] == val) {
+                    count++;
+                }
+            }
+            if (count == 1) {
+                return true;
+            }
+            return false;
+        },
+
         createCircular: (function () {
             function Circular(array) {
                 this._array = array;
