@@ -14,6 +14,7 @@ var GameLogic = {
                     break;
                 case 4:
                     type = Constant.TYPE_WIN.MOT_DOI;
+                    break;
                 case 5:
                     type = Constant.TYPE_WIN.MOT_CON;
                     break;
@@ -121,7 +122,7 @@ var GameLogic = {
         for (var i = 0; i < listPlayer.length; i++) {
             var amountWinArr = cc.Global.countCardAmount(listPlayer[i].listCard)[1];
             var max_amount_win_arr = Math.max.apply( Math, amountWinArr );
-            var index_max_amount_win_arr = winArr.indexOf(max_amount_win_arr);
+            var index_max_amount_win_arr = amountWinArr.indexOf(max_amount_win_arr);
             var winArr = cc.Global.countCardAmount(listPlayer[i].listCard)[0];
             var number_win = winArr[index_max_amount_win_arr];
             if (number_win > max_win) {
@@ -181,7 +182,7 @@ var GameLogic = {
         for (var i = 0; i < listWinPlayer.length; i++) {
             var amountWinArr = cc.Global.countCardAmount(listWinPlayer[i].listCard)[1];
             var max_amount_win_arr = Math.max.apply( Math, amountWinArr );
-            var index_max_amount_win_arr = winArr.indexOf(max_amount_win_arr);
+            var index_max_amount_win_arr = amountWinArr.indexOf(max_amount_win_arr);
             var winArr = cc.Global.countCardAmount(listWinPlayer[i].listCard)[0];
             var number_win = winArr[index_max_amount_win_arr];
             if (number_win > max_win) {

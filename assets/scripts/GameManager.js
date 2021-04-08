@@ -9,8 +9,6 @@ cc.Class({
     },
 
     onLoad () {
-        debugger
-        Utils.Set.compare([10,20,31,41,60], [10,20,31,41,60]);
         cc.Global.instanceCardAtlas();
         this.addEventListener();
         this.onActiveHome();

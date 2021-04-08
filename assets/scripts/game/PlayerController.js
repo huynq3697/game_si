@@ -16,6 +16,7 @@ cc.Class({
         this.listCard = [];
         this.listCardId = [];
         this.isWin = false;
+        this.isDraw = false;
     },
 
     start () {
@@ -29,6 +30,7 @@ cc.Class({
         this.listCard = [];
         this.listCardId = [];
         this.isWin = false;
+        this.isDraw = false;
     },
 
     updateListCard (id) {

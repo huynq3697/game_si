@@ -1,6 +1,7 @@
 var Constant = require("Constant");
 var PlayerController = require("PlayerController");
 var Utils = require("Utils");
+var GameLogic = require("GameLogic");
 cc.Class({
     extends: cc.Component,
 
@@ -14,6 +15,7 @@ cc.Class({
         draw_card: cc.Prefab, // bai boc len
         card: cc.Prefab,
         showCardPrefab: cc.Prefab,
+        endGamePrefab: cc.Prefab,
         btnBocBai: cc.Node,
     },
 
@@ -59,7 +61,22 @@ cc.Class({
     },
 
     onEndGame () {
-
+        this.listPlayer[0].listCard = [1,2,5,6,6];
+        this.listPlayer[1].listCard = [1,3,5,6,6];
+        this.listPlayer[0].listCardId = [10,21,50,60,61];
+        this.listPlayer[1].listCardId = [10,31,51,60,61];
+        var listPlayerResult = GameLogic.endGame(this.listPlayer);
+        var endGame = this.node.getChildByName("EndGame");
+        if (!endGame) {
+            endGame = cc.instantiate(this.endGamePrefab);
+            this.node.addChild(endGame, cc.macro.MAX_ZINDEX);
+        }
+        endGame.active = true;
+        endGame.opacity = 255;
+        var endGameJs = endGame.getComponent("EndGame");
+        if (endGameJs) {
+            endGameJs.createListResult(listPlayerResult);    
+        }
     },
 
     bocBai () {
@@ -119,7 +136,7 @@ cc.Class({
             var cardJs = card.getComponent('card');
             cardJs.setInforCard(this.drawCardList[id]);
         } else {
-            this.showCard(id);
+            this.showCard(this.drawCardList[id]);
         }
         this.drawCardList.splice(id, 1);
     },
@@ -136,6 +153,9 @@ cc.Class({
 
     checkMaxCardNumber () {
         if (this.currPlayer.listCard.length == this.max_card_number) {
+            this.scheduleOnce(function () {
+                this.callEvent(Constant.EVENT.END_GAME);
+            }.bind(this), 2);
             return true;
         }
         return false;
