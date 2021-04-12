@@ -17,6 +17,7 @@ cc.Class({
         showCardPrefab: cc.Prefab,
         endGamePrefab: cc.Prefab,
         btnBocBai: cc.Node,
+        betMoney: cc.Label,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -51,9 +52,11 @@ cc.Class({
         this.currPlayer = null;
         this.TURN = Constant.TURN.PLAYER_1;
         this.NEXT_TURN = null;
+        this.ROUND = Constant.ROUND.ROUND_1;
         this.btnBocBai.active = false;
         this.resetPlayer();
         this.drawCardList = [10,10,10,10,10,20,20,21,21,30,30,31,31,40,40,41,41,50,50,51,51,60,60,61,61];
+        this.betMoney.string = "Cược: " + Utils.Malicious.moneyWithFormat(cc.Global.BET_MONEY, ".");
     },
 
     onGameStart () {
@@ -140,6 +143,25 @@ cc.Class({
             this.showCard(this.drawCardList[id]);
         }
         this.drawCardList.splice(id, 1);
+        this.checkNextRound();
+    },
+
+    checkNextRound () {
+        var isNextRound = true;
+        for (var i = 0; i < this.listPlayer.length; i++) {
+            if (this.listPlayer[i].listCard.length < this.ROUND) {
+                isNextRound = false;
+                break;
+            }
+        }
+        if (isNextRound) {
+            this.ROUND++;
+        }
+        return isNextRound;
+    },
+
+    checkDiTien () {
+        
     },
 
     runTimeTurn () {

@@ -18,6 +18,14 @@ Constant.TURN = {
     PLAYER_5: 5,
 };
 
+Constant.ROUND = {
+    ROUND_1: 1,
+    ROUND_2: 2,
+    ROUND_3: 3,
+    ROUND_4: 4,
+    ROUND_5: 5,
+};
+
 Constant.POINT = {
     TOT: 1,
     MA_DEN: 2,

@@ -1,4 +1,5 @@
-
+var DataManager = require("DataManager");
+var Utils = require("Utils");
 cc.Class({
     extends: cc.Component,
 
@@ -8,6 +9,7 @@ cc.Class({
         face_up_card: cc.Node,
         player_id: cc.Number = 0,
         draw_card_rotate: cc.Number = 0,
+        money: cc.Label,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -17,6 +19,7 @@ cc.Class({
         this.listCardId = [];
         this.isWin = false;
         this.isDraw = false;
+        this.isStop = false;
     },
 
     start () {
@@ -31,6 +34,16 @@ cc.Class({
         this.listCardId = [];
         this.isWin = false;
         this.isDraw = false;
+        this.setInfor();
+    },
+
+    setInfor () {
+        var data = DataManager.UserData.getPlayerById(this.player_id);
+        this.setMoney(data.money);
+    },
+
+    setMoney (money) {
+        this.money.string = Utils.Malicious.moneyWithFormat(money, ".");
     },
 
     updateListCard (id) {

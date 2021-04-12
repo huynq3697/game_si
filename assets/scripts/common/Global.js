@@ -1,6 +1,7 @@
 var Constant = require("Constant");
 cc.Global = cc.Global || {};
 cc.Global.GAME_TYPE = 2; // game type bang may thi tuong ung vs so nguoi choi
+cc.Global.BET_MONEY = 1000;
 cc.Global.instanceCardAtlas = function (cb) {
     if (!cc.Global.CardAtlas) {
         cc.resources.load("images/card", cc.SpriteAtlas, function (completedCount, totalCount, item) {

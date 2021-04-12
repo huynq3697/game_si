@@ -8,7 +8,8 @@
     ]
   ],
   "excluded-modules": [
-    "3D Physics/Builtin"
+    "3D Physics/Builtin",
+    "SafeArea"
   ],
   "start-scene": "f03ffee7-b4a0-4284-8ab6-e48604527b9d",
   "preview-port": 7456,
@@ -33,5 +34,10 @@
     "live": {
       "enable": false
     }
-  }
+  },
+  "last-module-event-record-time": 1617949565808,
+  "assets-sort-type": "name",
+  "migrate-history": [
+    "cloud-function"
+  ]
 }

@@ -1,4 +1,5 @@
 var Constant = require("Constant");
+var DataManager = require("DataManager");
 cc.Class({
     extends: cc.Component,
 
@@ -22,6 +23,15 @@ cc.Class({
             var itemResultJs = itemResult.getComponent("itemResult");
             itemResultJs.setInfor(listPlayer[i]);
             this.content.addChild(itemResult);
+            this.setMoneyPlayer(listPlayer[i], listPlayer);
+        }
+    },
+    setMoneyPlayer (player, listPlayer) {
+        if (!player.isDraw) {
+            var money = (player.isWin) ? cc.Global.BET_MONEY * ( listPlayer.length - 1 ): - cc.Global.BET_MONEY;
+            var playerData = DataManager.UserData.getPlayerById(player.player_id);
+            playerData.money += money;
+            DataManager.UserData.setPlayer(playerData);
         }
     },
 

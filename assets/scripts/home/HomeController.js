@@ -35,6 +35,10 @@ cc.Class({
         this.callEvent(Constant.EVENT.ATIVE_GAME);
     },
 
+    onBtnExit () {
+        cc.game.end();
+    },
+
     callEvent (event) {
         this.node.dispatchEvent(new cc.Event.EventCustom(event, true));
     }

@@ -252,7 +252,23 @@ var GameLogic = {
             }
         }
         return player_win;
-    }
+    },
+
+    checkDiTien (listPlayer, round) {
+        if (round > Constant.ROUND.ROUND_2) {
+            var listCardTurnBefore = [];
+            var playerDiTien;
+            for (var i = 0; i < listPlayer.length; i++) {
+                var listCardId = listPlayer[i].listCardId;
+                if (round == Constant.ROUND.ROUND_3) {
+                    listCardTurnBefore.push(listCardId[0]);
+                } else {
+                    listCardTurnBefore.push(listCardId[listCardId.length - 1]);
+                }
+            }
+            console.error(listCardTurnBefore);
+        }
+    },
 };
 
 module.exports = GameLogic;
