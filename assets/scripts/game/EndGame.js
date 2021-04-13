@@ -47,13 +47,9 @@ cc.Class({
     onBtnClose () {
         this.node.runAction(cc.sequence(cc.fadeOut(1.0), cc.callFunc(function () {
             this.node.active = false;
-            this.callEvent(Constant.EVENT.NEW_GAME);
-            this.callEvent(Constant.EVENT.GAME_START);
+            cc.Global.callEvent(Constant.EVENT.NEW_GAME, null);
+            cc.Global.callEvent(Constant.EVENT.GAME_START, null);
         }.bind(this))));
-    },
-
-    callEvent (event) {
-        this.node.dispatchEvent(new cc.Event.EventCustom(event, true));
     },
 
     // update (dt) {},

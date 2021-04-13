@@ -19,8 +19,8 @@ cc.Class({
     },
 
     addEventListener () {
-        this.node.on(Constant.EVENT.ATIVE_HOME, this.onActiveHome, this);
-        this.node.on(Constant.EVENT.ATIVE_GAME, this.onActiveGame, this);
+        cc.Canvas.instance.node.on(Constant.EVENT.ATIVE_HOME, this.onActiveHome, this);
+        cc.Canvas.instance.node.on(Constant.EVENT.ATIVE_GAME, this.onActiveGame, this);
     },
 
     onActiveHome () {

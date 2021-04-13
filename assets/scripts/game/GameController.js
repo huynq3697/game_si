@@ -17,6 +17,8 @@ cc.Class({
         showCardPrefab: cc.Prefab,
         endGamePrefab: cc.Prefab,
         btnBocBai: cc.Node,
+        btnTheo: cc.Node,
+        btnDiTien: cc.Node,
         betMoney: cc.Label,
     },
 
@@ -32,7 +34,7 @@ cc.Class({
     },
 
     start () {
-        
+        this.winPlayer = null;
     },
 
     onEnable () {
@@ -41,19 +43,25 @@ cc.Class({
     },
 
     addEventListener () {
-        this.node.on(Constant.EVENT.NEW_GAME, this.onNewGame, this);
-        this.node.on(Constant.EVENT.GAME_START, this.onGameStart, this);
-        this.node.on(Constant.EVENT.END_GAME, this.onEndGame, this);
-        this.node.on(Constant.EVENT.SHOW_CARD, this.onShowCard, this);
+        cc.Canvas.instance.node.on(Constant.EVENT.NEW_GAME, this.onNewGame, this);
+        cc.Canvas.instance.node.on(Constant.EVENT.GAME_START, this.onGameStart, this);
+        cc.Canvas.instance.node.on(Constant.EVENT.END_GAME, this.onEndGame, this);
+        cc.Canvas.instance.node.on(Constant.EVENT.SHOW_CARD, this.onShowCard, this);
+        cc.Canvas.instance.node.on(Constant.EVENT.SET_WIN_PLAYER, this.onSetWinPlayer, this);
     },
 
     onNewGame () {
+        this.unscheduleAllCallbacks();
         this.listPlayer = [];
         this.currPlayer = null;
-        this.TURN = Constant.TURN.PLAYER_1;
+        this.STT_BOC = Constant.STT_BOC.BOC_DAU;
+        this.TURN = (!this.winPlayer) ? Constant.TURN.PLAYER_1 : this.winPlayer;
         this.NEXT_TURN = null;
         this.ROUND = Constant.ROUND.ROUND_1;
+        this.ROUND_STATUS = Constant.ROUND_STATUS.BOC_BAI;
         this.btnBocBai.active = false;
+        this.btnDiTien.active = false;
+        this.btnTheo.active = false;
         this.resetPlayer();
         this.drawCardList = [10,10,10,10,10,20,20,21,21,30,30,31,31,40,40,41,41,50,50,51,51,60,60,61,61];
         this.betMoney.string = "Cược: " + Utils.Malicious.moneyWithFormat(cc.Global.BET_MONEY, ".");
@@ -83,12 +91,13 @@ cc.Class({
         }
     },
 
+    onSetWinPlayer (event) {
+        this.winPlayer = event.data;
+    },
+
     bocBai () {
         this.btnBocBai.active = false;
         this.currPlayer = this.getCurrPlayer();
-        if (this.checkMaxCardNumber()) { // chi duoc boc toi da 5 quan
-            return;
-        }
         this.TURN = this.NEXT_TURN;
         var draw_card = cc.instantiate(this.draw_card);
         draw_card.rotation = this.currPlayer.draw_card_rotate;
@@ -134,6 +143,8 @@ cc.Class({
     setListCardPlayer (card) {
         var id = Utils.Malicious.randomMinMax(0, this.drawCardList.length - 1, true);
         var value = String(this.drawCardList[id]).substring(0,1);
+        this.currPlayer.sttBoc = this.STT_BOC;
+        this.STT_BOC++;
         this.currPlayer.updateListCard(value);
         this.currPlayer.updateListCardId(this.drawCardList[id]);
         if (card) {
@@ -156,32 +167,38 @@ cc.Class({
         }
         if (isNextRound) {
             this.ROUND++;
+            this.STT_BOC = Constant.STT_BOC.BOC_DAU;
         }
         return isNextRound;
     },
 
-    checkDiTien () {
-        
+    getRoundStatus () {
+        var player = GameLogic.checkDiTien(this.listPlayer, this.ROUND);
     },
 
     runTimeTurn () {
+        if (this.checkEndGame()) {
+            return;
+        }
         if (this.TURN !== Constant.TURN.PLAYER_1) {
             this.scheduleOnce(function (){
                 this.bocBai();
             }.bind(this), this.time_turn)
         } else {
-            this.btnBocBai.active = (this.checkMaxCardNumber()) ? false : true;
+            this.btnBocBai.active = true;
         }
     },
 
-    checkMaxCardNumber () {
-        if (this.currPlayer.listCard.length == this.max_card_number) {
-            this.scheduleOnce(function () {
-                this.callEvent(Constant.EVENT.END_GAME);
-            }.bind(this), 2);
-            return true;
+    checkEndGame () {
+        for (var i = 0; i < this.listPlayer.length; i++) {
+            if (this.listPlayer[i].listCard.length < this.max_card_number) {
+                return false;
+            }
         }
-        return false;
+        this.scheduleOnce(function () {
+            cc.Global.callEvent(Constant.EVENT.END_GAME, null);
+        }.bind(this), 2);
+        return true;
     },
 
     getCurrPlayer () {
@@ -233,12 +250,8 @@ cc.Class({
     },
 
     onBtnBack () {
-        this.callEvent(Constant.EVENT.ATIVE_HOME);
+        cc.Global.callEvent(Constant.EVENT.ATIVE_HOME, null);
     },
-
-    callEvent (event) {
-        this.node.dispatchEvent(new cc.Event.EventCustom(event, true));
-    }
 
     // update (dt) {},
 });

@@ -266,8 +266,10 @@ var GameLogic = {
                     listCardTurnBefore.push(listCardId[listCardId.length - 1]);
                 }
             }
+            var max_number_list_card = Math.max.apply( Math, listCardTurnBefore );
             console.error(listCardTurnBefore);
         }
+        return false;
     },
 };
 

@@ -8,6 +8,7 @@ Constant.EVENT = {
     GAME_START: "GAME_START",
     END_GAME: "END_GAME",
     SHOW_CARD: "SHOW_CARD",
+    SET_WIN_PLAYER: "SET_WIN_PLAYER",
 };
 
 Constant.TURN = {
@@ -26,18 +27,9 @@ Constant.ROUND = {
     ROUND_5: 5,
 };
 
-Constant.POINT = {
-    TOT: 1,
-    MA_DEN: 2,
-    MA_DO: 3,
-    PHAO_DEN: 4,
-    PHAO_DO: 5,
-    XE_DEN: 6,
-    XE_DO: 7,
-    TUONG_DEN: 8,
-    TUONG_DO: 9,
-    SY_DEN: 10,
-    SY_DO: 11,
+Constant.ROUND_STATUS = {
+    BOC_BAI: 1,
+    DI_TIEN: 2,
 };
 
 Constant.TYPE_WIN = {
@@ -48,6 +40,14 @@ Constant.TYPE_WIN = {
     MUN_XAU: 3.5, // truong hop 3 con va 1 doi
     BON_CON: 4,   
     NAM_CON: 5,   
+};
+
+Constant.STT_BOC = {
+    BOC_DAU: 1,   
+    BOC_HAI: 2,   
+    BOC_BA: 3, 
+    BOC_TU: 4, 
+    BOC_NAM: 5, 
 };
 
 Constant.TYPE_CARD = {

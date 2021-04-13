@@ -1,4 +1,4 @@
-
+var Constant = require("Constant");
 cc.Class({
     extends: cc.Component,
 
@@ -44,6 +44,7 @@ cc.Class({
             if (data.isWin) {
                 this.resultLabel.string = "Thắng";
                 this.resultLabel.node.color = cc.Color.YELLOW;
+                cc.Global.callEvent(Constant.EVENT.SET_WIN_PLAYER, data.player_id)
             } else {
                 this.resultLabel.string = "Thua";
                 this.resultLabel.node.color = cc.Color.RED;

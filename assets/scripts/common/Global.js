@@ -40,3 +40,10 @@ cc.Global.countCardAmount = function (arr) {
     
     return [a, b];
 }
+cc.Global.callEvent = function (event, data) {
+    var customEvent = new cc.Event.EventCustom(event, true);
+    if (data) {
+        customEvent.data = data;
+    }
+    cc.Canvas.instance.node.dispatchEvent(customEvent);
+}
