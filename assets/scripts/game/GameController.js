@@ -113,6 +113,7 @@ cc.Class({
                 this.currPlayer.card_container.addChild(card);
                 this.setListCardPlayer(card);
             }
+            this.checkNextRound();
             this.runTimeTurn();
         }.bind(this))));
     },
@@ -150,11 +151,11 @@ cc.Class({
         if (card) {
             var cardJs = card.getComponent('card');
             cardJs.setInforCard(this.drawCardList[id]);
+            this.currPlayer.updateListCardUp(this.drawCardList[id], value);
         } else {
             this.showCard(this.drawCardList[id]);
         }
         this.drawCardList.splice(id, 1);
-        this.checkNextRound();
     },
 
     checkNextRound () {
@@ -168,12 +169,18 @@ cc.Class({
         if (isNextRound) {
             this.ROUND++;
             this.STT_BOC = Constant.STT_BOC.BOC_DAU;
+            this.setTurnPlayerDiTien();
         }
         return isNextRound;
     },
 
-    getRoundStatus () {
-        var player = GameLogic.checkDiTien(this.listPlayer, this.ROUND);
+    setTurnPlayerDiTien () {
+        if (this.STT_BOC == Constant.STT_BOC.BOC_DAU && this.ROUND > Constant.ROUND.ROUND_2) {
+            var player = GameLogic.checkDiTien(this.listPlayer, this.ROUND);
+            if (player) {
+                this.TURN = player.player_id;
+            }
+        }
     },
 
     runTimeTurn () {

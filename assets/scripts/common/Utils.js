@@ -216,6 +216,16 @@ var Utils = {
             return false;
         },
 
+        getAmount: function (arr, val) {
+            var count = 0;
+            for (i = 0; i < arr.length; i += 1) {
+                if (arr[i] == val) {
+                    count++;
+                }
+            }
+            return count;
+        },
+
         createCircular: (function () {
             function Circular(array) {
                 this._array = array;

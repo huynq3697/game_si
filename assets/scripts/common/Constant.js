@@ -42,6 +42,20 @@ Constant.TYPE_WIN = {
     NAM_CON: 5,   
 };
 
+Constant.QUAN = {
+    TOT: 10,   
+    MA_DEN: 20,
+    MA_DO: 21,
+    PHAO_DEN: 30,
+    PHAO_DO: 31,
+    XE_DEN: 40,
+    XE_DO: 41,
+    TUONG_DEN: 50,
+    TUONG_DO: 51,
+    SY_DEN: 60,
+    SY_DO: 61,
+};
+
 Constant.STT_BOC = {
     BOC_DAU: 1,   
     BOC_HAI: 2,   

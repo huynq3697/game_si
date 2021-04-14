@@ -256,18 +256,91 @@ var GameLogic = {
 
     checkDiTien (listPlayer, round) {
         if (round > Constant.ROUND.ROUND_2) {
-            var listCardTurnBefore = [];
-            var playerDiTien;
+            var max = 1;
+            var listPlayerDiTien = [];
+            var listCardNewTurn = [];
+
             for (var i = 0; i < listPlayer.length; i++) {
-                var listCardId = listPlayer[i].listCardId;
-                if (round == Constant.ROUND.ROUND_3) {
-                    listCardTurnBefore.push(listCardId[0]);
-                } else {
-                    listCardTurnBefore.push(listCardId[listCardId.length - 1]);
+                listCardNewTurn.push(listPlayer[i].newCardId);
+                if (listPlayer[i].listCardDiTien.length > max) {
+                    max = listPlayer[i].listCardDiTien.length;
+                    listPlayerDiTien = [listPlayer[i]];
+                } else if (listPlayer[i].listCardDiTien.length == max) {
+                    listPlayerDiTien.push(listPlayer[i]);
                 }
             }
-            var max_number_list_card = Math.max.apply( Math, listCardTurnBefore );
-            console.error(listCardTurnBefore);
+
+            if (listPlayerDiTien.length == 1) {
+                return listPlayerDiTien[0];
+            } else {
+                var max_number_card = Math.max.apply( Math, listCardNewTurn );
+                var amount_max_number_card = Utils.Array.getAmount(listCardNewTurn, max_number_card);
+                if (max == 1) {
+                    if (max_number_card == Constant.QUAN.TOT) {
+                        for (var i = 0; i < listPlayer.length; i++) {
+                            if (listPlayer[i].sttBoc == Constant.STT_BOC.BOC_DAU) {
+                                return listPlayer[i];
+                            }
+                        }
+                    } else if (amount_max_number_card == 1) {
+                        var index_max_number_card = listCardNewTurn.indexOf(max_number_card);
+                        return listPlayer[index_max_number_card];
+                    } else {
+                        var index_player1 = listCardNewTurn.indexOf(max_number_card);
+                        var index_player2 = listCardNewTurn.lastIndexOf(max_number_card);
+                        var player1 = listPlayer[index_player1];
+                        var player2 = listPlayer[index_player2];
+                        if (player1.sttBoc < player2.sttBoc) {
+                            return player1;
+                        } else {
+                            return player2;
+                        }
+                    }
+                } else  {
+                    var max_bo = 1;
+                    var list_player_max_bo = [];
+                    for (var i = 0; i < listPlayerDiTien.length; i++) {
+                        if (listPlayerDiTien[i].newCard > max_bo) {
+                            max_bo = listPlayerDiTien[i].newCard;
+                            list_player_max_bo = [listPlayerDiTien[i]];
+                        } else if (listPlayerDiTien[i].newCard == max_bo) {
+                            list_player_max_bo.push(listPlayerDiTien[i]);
+                        }
+                    }
+                    if (max == 2) {
+                        if (list_player_max_bo.length == 1) {
+                            return list_player_max_bo[0];
+                        } else {
+                            var player1 = listPlayer[0];
+                            var player2 = listPlayer[1];
+                            if (max_bo == Constant.QUAN.TOT) {
+                                if (player1.sttBoc < player2.sttBoc) {
+                                    return player1;
+                                } else {
+                                    return player2;
+                                }
+                            } else {
+                                var amount_1 = Utils.Array.getAmount(player1.listCardId, player1.newCardId);
+                                if (amount_1 == 2) {
+                                    if (player1.newCardId < player2.newCardId) {
+                                        return player2;
+                                    } else {
+                                        return player1;
+                                    }
+                                } else {
+                                    if (player1.sttBoc < player2.sttBoc) {
+                                        return player1;
+                                    } else {
+                                        return player2;
+                                    }
+                                }
+                            }
+                        }
+                    } else if (max == 3) {
+                        return list_player_max_bo[0];
+                    }
+                }
+            }
         }
         return false;
     },
