@@ -190,10 +190,22 @@ var GameLogic = {
                 var number_win_arr2 = winArr2[index_min_amount_win_arr2];
   
                 if (Utils.Array.unique(listCardId1).length == 5) {
-                    if (number_win_arr1 > number_win_arr2) {
-                        return list_win_player[0];
+                    if (data.diff12.length == 1 && data.diff21.length == 1) {
+                        if (number_win_arr1 > number_win_arr2) {
+                            return list_win_player[0];
+                        }
+                        return list_win_player[1];
+                    } else {
+                        var index_bo_2_player_1 = (max_win == winArr1[amountWinArr1.indexOf(2)]) ? amountWinArr1.lastIndexOf(2) : amountWinArr1.indexOf(2);
+                        var index_bo_2_player_2 = (max_win == winArr2[amountWinArr2.indexOf(2)]) ? amountWinArr2.lastIndexOf(2) : amountWinArr2.indexOf(2);
+                        var max_bo_2_player_1 = winArr1[index_bo_2_player_1];
+                        var max_bo_2_player_2 = winArr2[index_bo_2_player_2];
+                        if (max_bo_2_player_1 > max_bo_2_player_2) {
+                            return list_win_player[0];
+                        } else {
+                            return list_win_player[1];
+                        }
                     }
-                    return list_win_player[1];
                 }
 
                 if (Utils.Array.unique(listCardId1).length == 4) {
