@@ -3,18 +3,18 @@ var UserData = {
     userData : null,    
 
     removeUserData() {
-        cc.sys.localStorage.removeItem('userData');
+        cc.sys.localStorage.removeItem('userData1');
     },
 
     saveUserData() {
        // console.log("JSON.stringify(this.userData)   " + JSON.stringify(this.userData));
-        cc.sys.localStorage.setItem('userData', JSON.stringify(this.userData));
+        cc.sys.localStorage.setItem('userData1', JSON.stringify(this.userData));
     },
     getUserData() {
         if(this.userData){
             return this.userData;
         }
-        var userData = JSON.parse(cc.sys.localStorage.getItem('userData'));
+        var userData = JSON.parse(cc.sys.localStorage.getItem('userData1'));
         if (userData) {
             this.userData = userData;
             return userData;
@@ -35,7 +35,7 @@ var UserData = {
                 language: "",
                 listPlayer: this.getListPlayer()
             };
-            cc.sys.localStorage.setItem('userData', JSON.stringify(userData));
+            cc.sys.localStorage.setItem('userData1', JSON.stringify(userData));
             this.userData = userData;
             return this.userData;
         }

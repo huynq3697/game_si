@@ -205,7 +205,7 @@ var Utils = {
 
         isUnique: function (arr, val) {
             var count = 0;
-            for (i = 0; i < arr.length; i += 1) {
+            for (var i = 0; i < arr.length; i += 1) {
                 if (arr[i] == val) {
                     count++;
                 }
@@ -218,7 +218,7 @@ var Utils = {
 
         getAmount: function (arr, val) {
             var count = 0;
-            for (i = 0; i < arr.length; i += 1) {
+            for (var i = 0; i < arr.length; i += 1) {
                 if (arr[i] == val) {
                     count++;
                 }
